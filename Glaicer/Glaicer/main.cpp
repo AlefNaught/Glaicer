@@ -46,6 +46,7 @@ Create and destroy a Vulkan surface on an SDL window.
 
 std::vector<const char*> getAvailableWSIExtensions();
 
+using namespace std;
 int main()
 {
     // Use validation layers if this is a debug build, and use WSI extensions regardless
@@ -107,6 +108,48 @@ int main()
 	VulkanSurface::create(instance, window, &surface);
 
     // This is where most initializtion for a program should be performed
+
+	uint32_t deviceCount = 0;
+	VkResult result = vkEnumeratePhysicalDevices(instance, &deviceCount, NULL);
+	if (result != VK_SUCCESS) {
+		fprintf(stderr, "Failed to get the number of physical devices present: %d\n", result);
+		abort();
+	}
+
+	if (deviceCount == 0) {
+		fprintf(stderr, "Couldn't detect any devices present with Vulkan support: %d\n", result);
+		abort();
+	}
+
+	vector<VkPhysicalDevice> physicalDevices(deviceCount);
+	result = vkEnumeratePhysicalDevices(instance, &deviceCount, &physicalDevices[0]);
+	if (result != VK_SUCCESS) {
+		fprintf(stderr, "Failed to enumerate physical devices present: %d\n", result);
+		abort();
+	}
+
+	VkPhysicalDeviceProperties deviceProperties;
+	for (uint32_t i = 0; i < deviceCount; i++) {
+		memset(&deviceProperties, 0, sizeof deviceProperties);
+		vkGetPhysicalDeviceProperties(physicalDevices[1], &deviceProperties);
+		printf("Driver Version: %d\n", deviceProperties.driverVersion);
+		printf("Device Name: %s\n", deviceProperties.deviceName);
+		printf("Device Type: %d\n", deviceProperties.deviceType);
+		printf("API Version: %d.%d.%d\n",(deviceProperties.apiVersion>>22)&0xFF, (deviceProperties.apiVersion>>12)&0x3FF, (deviceProperties.apiVersion & 0x3FF));
+
+		
+		/*
+		The Vulkan API encodes its versions as a 32 bit int, with major and minor versions being 31-22, and 21-12.  10 bits each.
+		The final 12 bits are the patch version number. Implement these.
+
+		#define VK_VER_MAJOR(X) (((X)>>22)&0x3FF)
+		#define VK_VER_MINOR(X) (((X)>>12)&0x3FF)
+		#define VK_VER_PATCH(X) ((X) & 0x3FF)
+		*/
+
+	}
+
+
 
     // Poll for user input.
     bool stillRunning = true;
