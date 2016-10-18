@@ -34,7 +34,10 @@ Create and destroy a Vulkan surface on an SDL window.
 // Tell SDL not to mess with main()
 #define SDL_MAIN_HANDLED
 
+#include "Logger.h"
 #include "VulkanSurface.h"
+#include <cstdlib>
+#include <cstdio>
 
 #include <glm/glm.hpp>
 #include <SDL2/SDL.h>
@@ -47,6 +50,7 @@ Create and destroy a Vulkan surface on an SDL window.
 std::vector<const char*> getAvailableWSIExtensions();
 
 using namespace std;
+
 int main()
 {
     // Use validation layers if this is a debug build, and use WSI extensions regardless
@@ -181,6 +185,7 @@ int main()
 
     return 0;
 }
+
 
 std::vector<const char*> getAvailableWSIExtensions()
 {
