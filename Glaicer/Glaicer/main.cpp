@@ -52,7 +52,9 @@ using namespace std;
 int main()
 {
 	Logger log;
+	FILE *logfile = fopen("log.txt", "a+");
 	log.addFileStream(stdout);
+	log.addFileStream(logfile);
 
 	VkResult result;
 
@@ -112,7 +114,7 @@ int main()
     // Create a Vulkan surface for rendering
     VkSurfaceKHR surface;
     //createVulkanSurface(instance, window, &surface);
-	VulkanSurface::create(instance, window, &surface);
+	VulkanSurface::create(instance, window, &surface, log);
 
     // This is where most initializtion for a program should be performed
 
@@ -180,12 +182,14 @@ int main()
         SDL_Delay(10);
     }
 
+
     // Clean up.
     vkDestroySurfaceKHR(instance, surface, NULL);
     SDL_DestroyWindow(window);
     SDL_Quit();
     vkDestroyInstance(instance, NULL);
 
+	fclose(logfile);
     return 0;
 }
 

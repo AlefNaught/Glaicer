@@ -2,11 +2,16 @@
 
 #include <iostream>
 
-int VulkanSurface::create(VkInstance instance, SDL_Window *window, VkSurfaceKHR *surface) {
+#include <glm/glm.hpp>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_syswm.h>
+#include <vulkan/vulkan.h>
+
+int VulkanSurface::create(VkInstance instance, SDL_Window *window, VkSurfaceKHR *surface, Logger log) {
 	SDL_SysWMinfo windowInfo;
 	SDL_VERSION(&windowInfo.version);
 	if (!SDL_GetWindowWMInfo(window, &windowInfo)) {
-		std::cout << "SDK window manager info is not available." << std::endl;
+		log.fatal("SDK window manager info is not available.");
 		return 1;
 	}
 
@@ -20,7 +25,7 @@ int VulkanSurface::create(VkInstance instance, SDL_Window *window, VkSurfaceKHR 
 
 		VkResult result = vkCreateAndroidSurfaceKHR(instance, &surfaceInfo, NULL, surface);
 		if (result != VK_SUCCESS) {
-			std::cout << "Failed to create Android surface." << std::endl;
+			log.fatal("Failed to create Android surface.");
 			return 1;
 		}
 		break;
@@ -36,7 +41,7 @@ int VulkanSurface::create(VkInstance instance, SDL_Window *window, VkSurfaceKHR 
 
 		VkResult result = vkCreateMirSurfaceKHR(instance, &surfaceInfo, NULL, surface);
 		if (result != VK_SUCCESS) {
-			std::cout << "Failed to create Mir surface." << std::endl;
+			log.fatal("Failed to create Mir surface.");
 			return 1;
 		}
 		break;
@@ -52,7 +57,7 @@ int VulkanSurface::create(VkInstance instance, SDL_Window *window, VkSurfaceKHR 
 
 		VkResult result = vkCreateWaylandSurfaceKHR(instance, &surfaceInfo, NULL, surface);
 		if (result != VK_SUCCESS) {
-			std::cout << "Failed to create Wayland surface." << std::endl;
+			log.fatal("Failed to create Wayland surface.");
 			return 1;
 		}
 		break;
@@ -68,7 +73,7 @@ int VulkanSurface::create(VkInstance instance, SDL_Window *window, VkSurfaceKHR 
 
 		VkResult result = vkCreateWin32SurfaceKHR(instance, &surfaceInfo, NULL, surface);
 		if (result != VK_SUCCESS) {
-			std::cout << "Failed to create Win32 surface." << std::endl;
+			log.fatal("Failed to create Win32 surface.");
 			return 1;
 		}
 		break;
@@ -84,7 +89,7 @@ int VulkanSurface::create(VkInstance instance, SDL_Window *window, VkSurfaceKHR 
 
 		VkResult result = vkCreateXlibSurfaceKHR(instance, &surfaceInfo, NULL, surface);
 		if (result != VK_SUCCESS) {
-			std::cout << "Failed to create X11 surface." << std::endl;
+			log.fatal("Failed to create X11 surface.");
 			return 1;
 		}
 		break;
@@ -92,7 +97,7 @@ int VulkanSurface::create(VkInstance instance, SDL_Window *window, VkSurfaceKHR 
 #endif
 
 	default:
-		std::cout << "Unsupported window manager is in use." << std::endl;
+		log.fatal("Unsupported window manager is in use.");
 		return 1;
 	}
 
