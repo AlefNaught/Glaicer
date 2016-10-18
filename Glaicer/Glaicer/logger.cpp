@@ -31,11 +31,17 @@ void Logger::log(Logger::eSeverity severity, const char *msg) {
 
 void Logger::logf(Logger::eSeverity severity, const char *fmt, ...) {
 	va_list args;
-	char msg[LOGGER_MAX_MSG_LEN];
 
 	va_start(args, fmt);
-	vsnprintf(msg, LOGGER_MAX_MSG_LEN, fmt, args);
+	this->vlogf(severity, fmt, args);
 	va_end(args);
+}
+
+void Logger::vlogf(eSeverity severity, const char *fmt, va_list args) {
+	char msg[LOGGER_MAX_MSG_LEN];
+
+	vsnprintf(msg, LOGGER_MAX_MSG_LEN, fmt, args);
+
 	this->log(severity, msg);
 }
 

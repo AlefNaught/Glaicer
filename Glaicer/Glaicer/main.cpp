@@ -141,10 +141,10 @@ int main()
 	for (uint32_t i = 0; i < deviceCount; i++) {
 		memset(&deviceProperties, 0, sizeof deviceProperties);
 		vkGetPhysicalDeviceProperties(physicalDevices[i], &deviceProperties);
-		log.infof("Driver Version: %d\n", deviceProperties.driverVersion);
-		log.infof("Device Name: %s\n", deviceProperties.deviceName);
-		log.infof("Device Type: %d\n", deviceProperties.deviceType);
-		log.infof("API Version: %d.%d.%d\n",(deviceProperties.apiVersion>>22)&0xFF, (deviceProperties.apiVersion>>12)&0x3FF, (deviceProperties.apiVersion&0x3FF));
+		log.infof("Driver Version: %d", deviceProperties.driverVersion);
+		log.infof("Device Name: %s", deviceProperties.deviceName);
+		log.infof("Device Type: %d", deviceProperties.deviceType);
+		log.infof("API Version: %d.%d.%d",(deviceProperties.apiVersion>>22)&0xFF, (deviceProperties.apiVersion>>12)&0x3FF, (deviceProperties.apiVersion&0x3FF));
 
 		
 		/*
@@ -157,8 +157,6 @@ int main()
 		*/
 
 	}
-
-
 
     // Poll for user input.
     bool stillRunning = true;
