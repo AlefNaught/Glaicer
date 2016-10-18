@@ -54,6 +54,8 @@ int main()
 	Logger log;
 	log.addFileStream(stdout);
 
+	VkResult result;
+
     // Use validation layers if this is a debug build, and use WSI extensions regardless
     std::vector<const char*> extensions = getAvailableWSIExtensions();
     std::vector<const char*> layers;
@@ -86,7 +88,7 @@ int main()
 
     // Create the Vulkan instance.
     VkInstance instance;
-    VkResult result = vkCreateInstance(&instInfo, NULL, &instance);
+    result = vkCreateInstance(&instInfo, NULL, &instance);
     if(result == VK_ERROR_INCOMPATIBLE_DRIVER) {
         log.fatal("Unable to find a compatible Vulkan Driver.");
         return 1;
@@ -115,7 +117,7 @@ int main()
     // This is where most initializtion for a program should be performed
 
 	uint32_t deviceCount = 0;
-	VkResult result = vkEnumeratePhysicalDevices(instance, &deviceCount, NULL);
+	result = vkEnumeratePhysicalDevices(instance, &deviceCount, NULL);
 	if (result != VK_SUCCESS) {
 		log.fatalf("Failed to enumerate physical devices present: %d", result);
 		abort();
@@ -136,7 +138,7 @@ int main()
 	VkPhysicalDeviceProperties deviceProperties;
 	for (uint32_t i = 0; i < deviceCount; i++) {
 		memset(&deviceProperties, 0, sizeof deviceProperties);
-		vkGetPhysicalDeviceProperties(physicalDevices[1], &deviceProperties);
+		vkGetPhysicalDeviceProperties(physicalDevices[i], &deviceProperties);
 		printf("Driver Version: %d\n", deviceProperties.driverVersion);
 		printf("Device Name: %s\n", deviceProperties.deviceName);
 		printf("Device Type: %d\n", deviceProperties.deviceType);
