@@ -21,7 +21,7 @@
     <ClCompile Include="VulkanSurface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Logger.cpp">
+    <ClCompile Include="logger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -29,7 +29,7 @@
     <ClInclude Include="VulkanSurface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Logger.h">
+    <ClInclude Include="logger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

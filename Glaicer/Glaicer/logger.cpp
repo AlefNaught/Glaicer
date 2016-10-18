@@ -18,19 +18,6 @@ static const char * severityToStrMap[] = {
 	"DEBUG"
 };
 
-/*
-//declare time to be used in the logger.
-namespace Util {
-	const std::string CurrentDateTime() {
-		time_t now = time(NULL);
-		struct tm timeStruct;
-		char core[80];
-		localtime_s(&timeStruct, &now);
-		strftime(core, sizeof(core), "%Y-%m-%d.%X", &timeStruct);
-	}
-}
-*/
-
 void Logger::log(Logger::eSeverity severity, const char *msg) {
 	for (auto file_it = files.begin(); file_it != files.end(); ++file_it) {
 		fprintf(*file_it, "[%s] %s\n", severityToStr(severity), msg);
