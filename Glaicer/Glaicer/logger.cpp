@@ -31,7 +31,7 @@ namespace Util {
 }
 */
 
-void Logger::logs(Logger::eSeverity severity, const char *msg) {
+void Logger::log(Logger::eSeverity severity, const char *msg) {
 	for (auto file_it = files.begin(); file_it != files.end(); ++file_it) {
 		*file_it;
 		fprintf(*file_it, "[%s] %s\n", severityToStr(severity), msg);
@@ -45,8 +45,20 @@ void Logger::logf(Logger::eSeverity severity, const char *fmt, ...) {
 	va_start(args, fmt);
 	vsnprintf(msg, LOGGER_MAX_MSG_LEN, fmt, args);
 	va_end(args);
-	this->logs(severity, msg);
+	this->log(severity, msg);
 }
+
+//Ease of use functions
+void Logger::fatal(const char *msg) { this->log(Logger::eSeverity::FATAL, msg); }
+void Logger::fatalf(const char *fmt, ...) { va_list args; va_start(args, fmt); this->logf(Logger::eSeverity::FATAL, fmt, args); va_end(args); }
+void Logger::error(const char *msg) { this->log(Logger::eSeverity::ERROR, msg); }
+void Logger::errorf(const char *fmt, ...) { va_list args; va_start(args, fmt); this->logf(Logger::eSeverity::ERROR, fmt, args); va_end(args); }
+void Logger::warn(const char *msg) { this->log(Logger::eSeverity::WARN, msg); }
+void Logger::warnf(const char *fmt, ...) { va_list args; va_start(args, fmt); this->logf(Logger::eSeverity::WARN, fmt, args); va_end(args); }
+void Logger::info(const char *msg) { this->log(Logger::eSeverity::INFO, msg); }
+void Logger::infof(const char *fmt, ...) { va_list args; va_start(args, fmt); this->logf(Logger::eSeverity::INFO, fmt, args); va_end(args); }
+void Logger::debug(const char *msg) { this->log(Logger::eSeverity::DEBUG, msg); }
+void Logger::debugf(const char *fmt, ...) { va_list args; va_start(args, fmt); this->logf(Logger::eSeverity::DEBUG, fmt, args); va_end(args); }
 
 void Logger::addFileStream(FILE *file) {
 	if (file)
