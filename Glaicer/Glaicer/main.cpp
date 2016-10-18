@@ -117,13 +117,11 @@ int main()
 	uint32_t deviceCount = 0;
 	VkResult result = vkEnumeratePhysicalDevices(instance, &deviceCount, NULL);
 	if (result != VK_SUCCESS) {
-		fprintf(log.fatalf, "Failed to enumerate physical devices present: %d\n", result);
 		log.fatalf("Failed to enumerate physical devices present: %d", result);
 		abort();
 	}
 
 	if (deviceCount == 0) {
-		fprintf(log.fatalf, "Couldn't detect any devices present with Vulkan support: %d\n", result);
 		log.fatalf("Couldn't detect any devices present with Vulkan support: %d", result);
 		abort();
 	}
@@ -131,7 +129,6 @@ int main()
 	vector<VkPhysicalDevice> physicalDevices(deviceCount);
 	result = vkEnumeratePhysicalDevices(instance, &deviceCount, &physicalDevices[0]);
 	if (result != VK_SUCCESS) {
-		fprintf(log.fatalf, "Failed to enumerate physical devices present: %d\n", result);
 		log.fatalf("Failed to enumerate physical devices present: %d", result);
 		abort();
 	}
