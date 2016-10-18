@@ -88,22 +88,22 @@ int main()
     VkInstance instance;
     VkResult result = vkCreateInstance(&instInfo, NULL, &instance);
     if(result == VK_ERROR_INCOMPATIBLE_DRIVER) {
-        std::cout << "Unable to find a compatible Vulkan Driver." << std::endl;
+        log.fatal("Unable to find a compatible Vulkan Driver.");
         return 1;
     } else if(result) {
-        std::cout << "Could not create a Vulkan instance (for unknown reasons)." << std::endl;
+		log.fatal("Could not create a Vulkan instance (for unknown reasons).");
         return 1;
     }
 
     // Create an SDL window that supports Vulkan and OpenGL rendering.
     if(SDL_Init(SDL_INIT_VIDEO) != 0) {
-        std::cout << "Could not initialize SDL." << std::endl;
+		log.fatal("Could not initialize SDL.");
         return 1;
     }
     SDL_Window* window = SDL_CreateWindow("Vulkan Window", SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_OPENGL);
     if(window == NULL) {
-        std::cout << "Could not create SDL window." << std::endl;
+		log.fatal("Could not create SDL window.");
         return 1;
     }
 
