@@ -33,10 +33,12 @@ public:
 	inline void debugf(const char *fmt, ...);
 
 	void addFileStream(FILE *file);
+	void addOStream(std::ostream ostream);
 
 protected:
 	const char * severityToStr(eSeverity severity);
 
 	std::vector<FILE *> files;
+	std::vector<std::ostream> ostreams;
 
 };

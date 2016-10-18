@@ -33,8 +33,10 @@ namespace Util {
 
 void Logger::log(Logger::eSeverity severity, const char *msg) {
 	for (auto file_it = files.begin(); file_it != files.end(); ++file_it) {
-		*file_it;
 		fprintf(*file_it, "[%s] %s\n", severityToStr(severity), msg);
+	}
+	for (auto ostream_it = ostreams.begin(); ostream_it != ostreams.end(); ++ostream_it) {
+		*ostream_it << msg << std::endl;
 	}
 }
 
@@ -63,6 +65,11 @@ void Logger::debugf(const char *fmt, ...) { va_list args; va_start(args, fmt); t
 void Logger::addFileStream(FILE *file) {
 	if (file)
 		files.push_back(file);
+}
+
+void Logger::addOStream(std::ostream ostream) {
+	if (ostream.good())
+		ostreams.push_back(ostream);
 }
 
 const char * Logger::severityToStr(Logger::eSeverity severity) {
